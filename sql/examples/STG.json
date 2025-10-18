@@ -1,0 +1,52 @@
+{
+    "object_id": 8489336,
+    "object_type": "order",
+    "sent_dttm": "2025-10-11 17:45:48",
+    "payload": {
+        "restaurant": {
+            "id": "626a81cfefa404208fe9abae"
+        },
+        "date": "2025-10-04 17:47:28",
+        "user": {
+            "id": "626a81ce9a8cd1920641e2ac"
+        },
+        "order_items": [
+            {
+                "id": "6276e8cd0cf48b4cded0087e",
+                "name": "СЭНДВИЧ С ТУНЦОМ",
+                "price": 180,
+                "quantity": 4
+            },
+            {
+                "id": "6276e8cd0cf48b4cded0087c",
+                "name": "CЭНДВИЧ С КУРИЦЕЙ BBQ",
+                "price": 180,
+                "quantity": 1
+            }
+        ],
+        "bonus_payment": 0,
+        "cost": 900,
+        "payment": 900,
+        "bonus_grant": 0,
+        "statuses": [
+            {
+                "status": "CLOSED",
+                "dttm": "2025-10-04 17:47:28"
+            },
+            {
+                "status": "DELIVERING",
+                "dttm": "2025-10-04 17:08:30"
+            },
+            {
+                "status": "COOKING",
+                "dttm": "2025-10-04 16:32:42"
+            },
+            {
+                "status": "OPEN",
+                "dttm": "2025-10-04 16:23:44"
+            }
+        ],
+        "final_status": "CLOSED",
+        "update_ts": "2025-10-04 17:47:28"
+    }
+}

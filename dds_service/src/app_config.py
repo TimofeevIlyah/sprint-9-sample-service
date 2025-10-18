@@ -13,10 +13,10 @@ class AppConfig:
         self.kafka_consumer_username = str(os.getenv('KAFKA_CONSUMER_USERNAME') or "")
         self.kafka_consumer_password = str(os.getenv('KAFKA_CONSUMER_PASSWORD') or "")
         self.kafka_consumer_group = str(os.getenv('KAFKA_CONSUMER_GROUP') or "")
-        self.kafka_consumer_topic = str(os.getenv('KAFKA_SOURCE_TOPIC') or "")
+        self.kafka_consumer_topic = str(os.getenv('KAFKA_STG_SERVICE_ORDERS_TOPIC') or "")
         self.kafka_producer_username = str(os.getenv('KAFKA_CONSUMER_USERNAME') or "")
         self.kafka_producer_password = str(os.getenv('KAFKA_CONSUMER_PASSWORD') or "")
-        self.kafka_producer_topic = str(os.getenv('KAFKA_DESTINATION_TOPIC') or "")
+        self.kafka_producer_topic = str(os.getenv('KAFKA_DDS_SERVICE_ORDERS_TOPIC') or "")
 
         self.pg_warehouse_host = str(os.getenv('PG_WAREHOUSE_HOST') or "")
         self.pg_warehouse_port = int(str(os.getenv('PG_WAREHOUSE_PORT') or 0))

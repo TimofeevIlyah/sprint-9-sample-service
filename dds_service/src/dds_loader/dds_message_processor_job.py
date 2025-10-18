@@ -2,7 +2,6 @@ import time
 from datetime import datetime, timezone
 from logging import Logger
 from lib.kafka_connect.kafka_connectors import KafkaProducer, KafkaConsumer
-from lib.redis import RedisClient
 from dds_loader.repository.dds_repository import DdsRepository
 import json
 
@@ -32,74 +31,27 @@ class DdsMessageProcessor:
             msg = self._consumer.consume()
             if msg is None:
                 return
-            
-            # распарсить и сохранить данные о ресторане
-            # распарсить и сохранить данные о пользователе
-            # распарсить и сохранить данные о продуктах
-            # распарсить и сохранить данные о категориях
-            # распарсить и сохранить данные о заказе
-            # собрать json и послать в cdm
-            
-            payload = msg['payload']
-            payload_json = json.dumps(payload, ensure_ascii=False)
-            
-            # Сохраните сообщение в таблицу
-            self._dds_repository.order_events_insert(
-                object_id = msg['object_id'],
-                object_type = msg['object_type'],
-                sent_dttm = msg['sent_dttm'],
-                payload = payload_json
-            )            
-            # Достаньте id пользователя из сообщения и получите полную информацию о пользователе из Redis.
-            user_id = payload['user']['id']
-            user = self._redis.get(user_id)
-            user_name = user['name']
-                       
-            # Достаньте id ресторана из сообщения и получите полную информацию о ресторане из Redis.
-            restaurant_id = payload['restaurant']['id']
-            restaurant = self._redis.get(restaurant_id)
-            restaurant_name = restaurant['name']
 
-            menu = restaurant['menu']
-
-            # Сформируйте выходное сообщение.
-            products_result = []
-            for item in payload['order_items']:
-                category = next((menu_item["category"] for menu_item in menu if menu_item["_id"] == item['id']), None)
-                product = {
-                    "id": item['id'],
-                    "price": item['price'],
-                    "quantity": item['quantity'],
-                    "name": item['name'],
-                    "category": category
-                }
-                products_result.append(product)
-
-            payload_result = {
-                "id": msg['object_id'],
-                "date": payload["date"],
-                "cost": payload["cost"],
-                "payment": payload["payment"],
-                "status": payload["final_status"],
-                "restaurant": {
-                    "id": restaurant_id,
-                    "name": restaurant_name
-                },
-                "user": {
-                    "id": user_id,
-                    "name": user_name
-                },
-                "products": products_result
+            # Сохраните сообщение в таблицу. Возможно, стоит вычитывать из msg payload и грузить его
+            # как второй вариант, передавать в STG-сервисе в продюсер только id заказа. И в DDS-сервисе запускать обработчик на основе данных из stage-слоя. 
+            # Но это внесет некую сумятицу при обогащении данных
+            msg_json = json.dumps(msg, ensure_ascii=False)
+            self._dds_repository.order_update(object_data = msg_json)
+            
+            # Отправьте выходное сообщения для перестроении витрин
+            # user_product_counters
+            command_user_product_counters_refresh = {
+                "command_type": "refresh_mart",
+                "mart_name": "user_product_counters"
             }
-
-            result = {
-                "object_id": msg['object_id'],
-                "object_type": msg['object_type'],
-                "payload": payload_result
-            }
+            self._producer.produce(command_user_product_counters_refresh)
             
-            # Отправьте выходное сообщение
-            self._producer.produce(result)
+            # user_category_counters
+            command_user_category_counters_refresh = {
+                "command_type": "refresh_mart",
+                "mart_name": "user_category_counters"
+            }
+            self._producer.produce(command_user_category_counters_refresh)
 
             i+=1
 

@@ -1,7 +1,8 @@
 DROP PROCEDURE IF EXISTS dds.load_order_from_json;
 CREATE OR REPLACE PROCEDURE dds.load_order_from_json(p_order JSONB)
--- Загрузка заказа из JSON
--- Возможно, стоит на вход брать данные из тэга payload
+/*
+Загрузка заказа из JSON
+*/
 LANGUAGE plpgsql
 AS $$
 DECLARE

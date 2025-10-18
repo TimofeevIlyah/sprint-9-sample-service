@@ -1,0 +1,35 @@
+{
+    "object_id": 8489336,
+    "object_type": "order",
+    "payload": {
+        "id": 8489336,
+        "date": "2025-10-04 17:47:28",
+        "cost": 900,
+        "payment": 900,
+        "status": "CLOSED",
+        "restaurant": {
+            "id": "626a81cfefa404208fe9abae",
+            "name": "Кофейня №1"
+        },
+        "user": {
+            "id": "626a81ce9a8cd1920641e2ac",
+            "name": "Виноградов Онуфрий Виленович"
+        },
+        "products": [
+            {
+                "id": "6276e8cd0cf48b4cded0087e",
+                "price": 180,
+                "quantity": 4,
+                "name": "СЭНДВИЧ С ТУНЦОМ",
+                "category": "Выпечка"
+            },
+            {
+                "id": "6276e8cd0cf48b4cded0087c",
+                "price": 180,
+                "quantity": 1,
+                "name": "CЭНДВИЧ С КУРИЦЕЙ BBQ",
+                "category": "Выпечка"
+            }
+        ]
+    }
+}
