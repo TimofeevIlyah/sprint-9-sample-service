@@ -25,5 +25,5 @@ services:
       PG_WAREHOUSE_PASSWORD: ${PG_WAREHOUSE_PASSWORD}
     network_mode: "bridge"
     ports:
-      - "5012:5000"
+      - "5013:5000"
     restart: unless-stopped

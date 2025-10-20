@@ -1,4 +1,9 @@
-import os
+import os, sys
+from pathlib import Path
+
+ROOT_DIR = str(Path(__file__).absolute().parent.parent.parent)
+if ROOT_DIR not in sys.path:
+    sys.path.append(ROOT_DIR)
 from lib.kafka_connect import KafkaConsumer, KafkaProducer
 from lib.pg import PgConnect
 
